@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Flask App</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function showDirectory(path) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("file-list").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", "/?path=" + path, true);
+            xhttp.send();
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Hello, World!</h1>
+    <p>Welcome to my Flask app.</p>
+    <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+    <h3>Directories:</h3>
+    <ul>
+        {% for directory in directories %}
+        <li><a href="#" onclick="showDirectory('{{ directory }}')">{{ directory }}</a></li>
+        {% endfor %}
+    </ul>
+    <h3>Files:</h3>
+    <ul>
+        {% for file in files %}
+        <li>{{ file }}</li>
+        {% endfor %}
+    </ul>
+
+    <div id="file-list"></div>
+</body>
+
+</html>
