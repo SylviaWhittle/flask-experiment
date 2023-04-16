@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Edit "{{ post['title'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    <label for="title">Title</label>
+    <input name="title" id="title" value="{{ request.form['title'] or post['title'] }}" required>
+    <label for="body">Body</label>
+    <textarea name="body" id="body">{{ request.form['body'] or post['body'] }}</textarea>
+    <input type="submit" value="Save">
+</form>
+<hr>
+<form action="{{ url_for('blog.delete', id=post['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+</form>
+{% endblock %}
+
+<!-- this template has two forms. the first posts the edited data to the current page /<id>/update.
+the second contains only a button and specifies an action attribute that posts to the delete view
+instead. the button uses some javascript to show a confirmation dialog before submitting-->
+
+<!-- the pattern {{ request.form['title'] or post['title'] }} is used to choose what data appears
+in the form. when the form hasn't been submitted, the original post data appears, but if an invalid
+form data was posted, we display that so the user can figx the error, so request.form is used instead
+request is another variable that is automatically available in templates. -->
